@@ -72,12 +72,14 @@ class ThreadController(QObject):
     def __init__(self, wait_chunk):
         """Constructor
 
-        :param float wait_period: Check period for thread stop signal, default 0.05 seconds
+        :param float interval: Pause duration between iterations of the loop in seconds
+        :param float wait_period: Check period in seconds for thread stop signal, default 0.05 seconds
         """
         QObject.__init__(self, None)
         self._mutex = QMutex()
+        self._interval = interval
         self._running = True
-        self._wait_period = 0.05
+        self._wait_period = wait_chunk
 
     def stop(self):
         """Sets the running flag to False, thread will stop in at most wait_period time, then emit sgnFinished
@@ -92,7 +94,7 @@ class ThreadController(QObject):
 
         Before the work loop is started _prepare() is called and _cleanup() after the stop signal is received.
         Default implementations of _prepare() and _cleanup() do nothing.
-        During the loop execution the _process() method is called in each iteration. This method must be overriden and it must return a dictionary containing the reusult
+        During the loop execution the _process() method is called in each iteration. This method must be overriden and it must return a result
         """
         self._prepare()
 
