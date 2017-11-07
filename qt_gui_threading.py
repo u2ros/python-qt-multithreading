@@ -69,7 +69,7 @@ class ThreadController(QObject):
     sgnError = pyqtSignal(dict)
     sgnFinished = pyqtSignal()
 
-    def __init__(self, wait_chunk):
+    def __init__(self, interval, wait_chunk=0.05):
         """Constructor
 
         :param float interval: Pause duration between iterations of the loop in seconds
