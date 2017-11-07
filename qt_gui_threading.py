@@ -1,5 +1,6 @@
 """Multithreaded helper module for Qt based QApplications
 """
+import time
 from PyQt4 import uic
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
