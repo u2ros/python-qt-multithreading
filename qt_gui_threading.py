@@ -92,7 +92,7 @@ class ThreadController(QObject):
 
         Before the work loop is started _prepare() is called and _cleanup() after the stop signal is received.
         Default implementations of _prepare() and _cleanup() do nothing.
-        During the loop execution the _process() method is called in each iteration. This method must be overriden.
+        During the loop execution the _process() method is called in each iteration. This method must be overriden and it must return a dictionary containing the reusult
         """
         self._prepare()
 
