@@ -6,11 +6,20 @@ from PyQt4.QtGui import *
 
 #client-side thread interface
 class ThreadClient(QObject):
+    """Client side thread interface
+    """
     sgnTick = pyqtSignal(dict)
     sgnError = pyqtSignal(dict)
     sgnFinished = pyqtSignal()
 
     def __init__(self, controller):
+        """Constructor
+
+        :param ThreadController controller: Instance of user defined ThreadController
+
+        Instance of ThreadClient will fire sgnTick on every iteration of the work loop, sgnError on error
+        and sgnFinished after receiving a stop flag and finishing the last loop iteration
+        """
         QObject.__init__(self)
         self._controller = controller
         self._running = False
@@ -20,6 +29,8 @@ class ThreadClient(QObject):
         return self._running
 
     def start(self):
+        """Starts the thread and connects all signals
+        """
         self._thread = QThread()
         self._controller.moveToThread(self._thread)
 
@@ -33,6 +44,10 @@ class ThreadClient(QObject):
         self._running = not self._running
 
     def stop(self):
+        """Sends a stop signal to ThreadController
+
+        Note: Thread will not finish immediately, it will finish the current iteration first
+        """
         self._controller.stop()
 
     def _on_tick(self, result):
@@ -49,7 +64,7 @@ class ThreadClient(QObject):
         self.sgnError.emit(errdict)
 
 #thread-side controller object
-class ThreadWorker(QObject):
+class ThreadController(QObject):
     sgnTick = pyqtSignal(dict)
     sgnError = pyqtSignal(dict)
     sgnFinished = pyqtSignal()
