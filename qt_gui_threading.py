@@ -97,7 +97,10 @@ class ThreadController(QObject):
         Default implementations of _prepare() and _cleanup() do nothing.
         During the loop execution the _process() method is called in each iteration. This method must be overriden and it must return a result
         """
-        self._prepare()
+        try:
+            self._prepare()
+        except Exception as e:
+            self.sgnError.emit({'error': e})
 
         while self._running:
             try:
@@ -114,7 +117,10 @@ class ThreadController(QObject):
                 time.sleep(self._wait_period)
                 wait += self._wait_period
 
-        self._cleanup()
+        try:
+            self._cleanup()
+        except Exception as e:
+            self.sgnError.emit({'error': e})
 
         self.sgnFinished.emit()
 
