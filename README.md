@@ -18,7 +18,7 @@ except ValueError:
 from PyQt4.QtGui import QApplication, QWidget, QVBoxLayout, QLabel, QPushButton
 from PyQt4.QtCore import QSize
 
-from qt_gui_threading import ThreadClient, ThreadController
+from qt_gui_threading.core import ThreadClient, ThreadController
 
 class LetterThreadController(ThreadController):
     def __init__(self, interval):
